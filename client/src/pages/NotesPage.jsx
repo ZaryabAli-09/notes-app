@@ -70,7 +70,7 @@ const NotesPage = () => {
                       <p
                         className="text-sm text-neutral-400"
                         dangerouslySetInnerHTML={{
-                          __html: note && truncate(note.notesDescription, 32),
+                          __html: note && truncate(note.notesDescription, 12),
                         }}
                       ></p>
                       <div className="font-semibold text-xs text-neutral-500">

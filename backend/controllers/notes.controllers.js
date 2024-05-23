@@ -36,14 +36,14 @@ const createNotes = async (req, res) => {
 const getNotes = async (req, res) => {
   try {
     const { createdBy } = req.params;
-    console.log(createdBy);
+
     if (!createdBy) {
-      return res
-        .status(401)
-        .json({ message: "Unable to fetch notes of current user " });
+      return res.status(401).json({
+        message: "Error occur while trying to fetch notes.try again!!  ",
+      });
     }
     const userNotes = await Notes.find({ createdBy });
-    console.log(userNotes);
+
     if (!userNotes) {
       return res.status(401).json({
         message: "No notes",
@@ -58,4 +58,28 @@ const getNotes = async (req, res) => {
     });
   }
 };
-export { createNotes, getNotes };
+
+const editNotes = async () => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(401).json({
+        message: "Error occur while trying to update notes.try again!! ",
+      });
+    }
+    const userNotes = await Notes.findById({ userId });
+    if (!userNotes) {
+      return res.status(401).json({
+        message: "Error occur while trying to update notes.try again!! ",
+      });
+    }
+    res.status(200).json({
+      notesData: userNotes,
+    });
+  } catch (error) {
+    res.status(501).json({
+      message: error.message,
+    });
+  }
+};
+export { createNotes, getNotes, editNotes };
