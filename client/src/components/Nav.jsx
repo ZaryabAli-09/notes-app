@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const Nav = () => {
   const activeTab = useLocation();
   const user = useSelector((state) => state.user.payload);
+
   return (
     <nav className="bg-black flex items-center p-3">
       <div className="flex items-center justify-center w-[90vw] space-x-8">
@@ -35,7 +36,7 @@ const Nav = () => {
             <img
               src={user.avatar}
               alt=""
-              className="w-8 border border-yellow-600 rounded-full"
+              className="w-[30px] border border-yellow-600 rounded-full"
             />
           ) : (
             <RiSettingsLine

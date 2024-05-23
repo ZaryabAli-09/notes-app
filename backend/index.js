@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { dbConnection } from "./db/db.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
+import notesRoutes from "./routes/notes.routes.js";
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ app.use(urlencoded({ extended: true }));
 
 // routes
 app.use("/api/users", userRoutes);
+app.use("/api/notes", notesRoutes);
 
 app.listen(process.env.PORT || 4000, () => {
   console.log(`Server is running on ${process.env.PORT} port `);
