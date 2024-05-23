@@ -59,15 +59,15 @@ const getNotes = async (req, res) => {
   }
 };
 
-const editNotes = async () => {
+const getSpecificNotes = async (req, res) => {
   try {
-    const { userId } = req.params;
-    if (!userId) {
+    const { noteId } = req.params;
+    if (!noteId) {
       return res.status(401).json({
         message: "Error occur while trying to update notes.try again!! ",
       });
     }
-    const userNotes = await Notes.findById({ userId });
+    const userNotes = await Notes.findById(noteId);
     if (!userNotes) {
       return res.status(401).json({
         message: "Error occur while trying to update notes.try again!! ",
@@ -82,4 +82,4 @@ const editNotes = async () => {
     });
   }
 };
-export { createNotes, getNotes, editNotes };
+export { createNotes, getNotes, getSpecificNotes };

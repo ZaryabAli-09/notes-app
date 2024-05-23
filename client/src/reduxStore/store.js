@@ -12,12 +12,23 @@ const userSlice = createSlice({
     },
   },
 });
+const editNotesSlice = createSlice({
+  name: "editNotes",
+  initialState: null,
+  reducers: {
+    editNotes(state, payload) {
+      return payload;
+    },
+  },
+});
 
 const store = configureStore({
   reducer: {
     user: userSlice.reducer,
+    editNotes: editNotesSlice.reducer,
   },
 });
 
+export const editNotesAction = editNotesSlice.actions;
 export const userActions = userSlice.actions;
 export default store;

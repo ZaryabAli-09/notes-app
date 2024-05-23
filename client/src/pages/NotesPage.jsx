@@ -4,15 +4,16 @@ import { Link } from "react-router-dom";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import AddNotePopUp from "../components/AddNotePopUp";
 import Nav from "../components/Nav";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { editNotesAction } from "../reduxStore/store";
 const NotesPage = () => {
+  const dispatch = useDispatch();
   const [addNotePopUp, setAddNotePopUp] = useState(false);
   const [notes, setNotes] = useState([]);
   const onAddNotePopUp = () => {
     return setAddNotePopUp(!addNotePopUp);
   };
   const user = useSelector((state) => state.user.payload);
-  console.log(notes);
   const getNotes = async () => {
     const res = await fetch(`/api/notes/get-notes/${user._id}`, {
       method: "GET",
@@ -40,6 +41,9 @@ const NotesPage = () => {
     getNotes();
   }, []);
 
+  function getNoteId(id) {
+    return dispatch(editNotesAction.editNotes(id));
+  }
   return (
     <>
       <Nav />
@@ -64,7 +68,11 @@ const NotesPage = () => {
             {notes &&
               notes.map((note) => {
                 return (
-                  <Link to={"/notes-details"}>
+                  <Link
+                    key={note._id}
+                    to={"/notes-details"}
+                    onClick={() => getNoteId(note._id)}
+                  >
                     <div className="note-1 bg-neutral-800 rounded-lg p-2">
                       <h3 className="font-bold text-sm ">{note.title}</h3>
                       <p
