@@ -26,7 +26,6 @@ const SignUp = () => {
       const data = await res.json();
 
       if (res.ok) {
-        console.log(data);
         setLoading(false);
         setErr(data.message);
         setTimeout(() => {
@@ -35,12 +34,10 @@ const SignUp = () => {
       }
       if (!res.ok) {
         setLoading(false);
-        console.log(data.message);
         setErr(data.message);
       }
     } catch (error) {
       setLoading(false);
-      console.log(error.message);
       setErr(error.message);
     }
   };

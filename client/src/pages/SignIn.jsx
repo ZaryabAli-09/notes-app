@@ -7,7 +7,6 @@ import { userActions } from "../reduxStore/store";
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState(null);
@@ -20,6 +19,7 @@ const SignIn = () => {
         password,
       };
 
+      setLoading(true);
       const res = await fetch("/api/users/login", {
         method: "POST",
         headers: {
@@ -27,7 +27,7 @@ const SignIn = () => {
         },
         body: JSON.stringify(formdata),
       });
-      setLoading(true);
+
       const data = await res.json();
 
       if (!res.ok) {

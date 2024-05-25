@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Add from "../components/AddNoteBtn";
-import { Link } from "react-router-dom";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
-import AddNotePopUp from "../components/AddNotePopUp";
+import { Link, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import { useDispatch, useSelector } from "react-redux";
 import { editNotesAction } from "../reduxStore/store";
 const NotesPage = () => {
   const dispatch = useDispatch();
-  const [addNotePopUp, setAddNotePopUp] = useState(false);
-  const [notes, setNotes] = useState([]);
-  const onAddNotePopUp = () => {
-    return setAddNotePopUp(!addNotePopUp);
-  };
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.payload);
+  const [notes, setNotes] = useState([]);
+
   const getNotes = async () => {
     const res = await fetch(`/api/notes/get-notes/${user._id}`, {
       method: "GET",
@@ -22,7 +18,6 @@ const NotesPage = () => {
       },
     });
     const data = await res.json();
-
     if (res.ok) {
       setNotes(data.notesData);
     }
@@ -55,46 +50,39 @@ const NotesPage = () => {
             placeholder="Search notes"
           />
         </div>
-        {addNotePopUp && (
-          <button className="ml-5" onClick={() => setAddNotePopUp(false)}>
-            <FaArrowAltCircleLeft className="text-xl text-yellow-400 " />
-          </button>
-        )}
 
-        {addNotePopUp ? (
-          <AddNotePopUp />
-        ) : (
-          <div className="notes p-4 flex flex-col space-y-3">
-            {notes &&
-              notes.map((note) => {
-                return (
-                  <Link
-                    key={note._id}
-                    to={"/notes-details"}
-                    onClick={() => getNoteId(note._id)}
-                  >
-                    <div className="note-1 bg-neutral-800 rounded-lg p-2">
-                      <h3 className="font-bold text-sm ">{note.title}</h3>
-                      <p
-                        className="text-sm text-neutral-400"
-                        dangerouslySetInnerHTML={{
-                          __html: note && truncate(note.notesDescription, 12),
-                        }}
-                      ></p>
-                      <div className="font-semibold text-xs text-neutral-500">
-                        {note && new Date(note.createdAt).toLocaleDateString()}
-                      </div>
+        <div className="notes p-4 flex flex-col space-y-3">
+          {notes &&
+            notes.map((note) => {
+              return (
+                <Link
+                  key={note._id}
+                  to={"/notes-details"}
+                  onClick={() => getNoteId(note._id)}
+                >
+                  <div className="note-1 bg-neutral-800 rounded-lg p-2">
+                    <h3 className="font-bold text-sm ">{note.title}</h3>
+                    <p
+                      className="text-sm text-neutral-400"
+                      dangerouslySetInnerHTML={{
+                        __html: note && truncate(note.notesDescription, 12),
+                      }}
+                    ></p>
+                    <div className="font-semibold text-xs text-neutral-500">
+                      {note && new Date(note.createdAt).toLocaleDateString()}
                     </div>
-                  </Link>
-                );
-              })}
-          </div>
-        )}
-        {!addNotePopUp && (
-          <div className="cursor-pointer " onClick={onAddNotePopUp}>
-            <Add />
-          </div>
-        )}
+                  </div>
+                </Link>
+              );
+            })}
+        </div>
+
+        <div
+          className="cursor-pointer "
+          onClick={() => navigate("/notes-page/create")}
+        >
+          <Add />
+        </div>
       </div>
     </>
   );
