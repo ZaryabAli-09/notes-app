@@ -13,7 +13,9 @@ const AddNotePopUp = () => {
   const [title, setTitle] = useState("");
   const [notesDescription, setNotesDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [err, setErr] = useState();
+  const [deletePopUp, setDeletePopUp] = useState(false);
 
   const getNote = async () => {
     const res = await fetch(`/api/notes/get-specific-note/${noteId.payload}`, {
@@ -66,6 +68,32 @@ const AddNotePopUp = () => {
     }
   };
 
+  const deleteNotes = async () => {
+    try {
+      setLoading2(true);
+      const res = await fetch(`/api/notes/delete-note/${noteId.payload}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setErr(data.message);
+        setLoading2(false);
+        return;
+      }
+      if (res.ok) {
+        setErr(data.message);
+        setLoading2(false);
+        setDeletePopUp(false);
+        setTimeout(() => {
+          navigate("/notes-page");
+        }, 1000);
+        return;
+      }
+    } catch (error) {
+      setErr(error.message);
+      setLoading2(false);
+    }
+  };
   useEffect(() => {
     getNote();
   }, []);
@@ -94,10 +122,37 @@ const AddNotePopUp = () => {
       />
       <button
         onClick={updateNotes}
-        className="w-full bg-yellow-500 p-2 rounded text-black font-bold "
+        className="w-full bg-yellow-500 p-2 rounded text-black font-bold z-0 "
       >
         {loading ? "Loading..." : "Update"}
       </button>
+      <button
+        onClick={() => setDeletePopUp(true)}
+        className="w-full bg-red-500 p-2 mt-2 rounded text-black font-bold  "
+      >
+        {loading2 ? "Loading..." : "Delete"}
+      </button>
+      {deletePopUp && (
+        <div className="mx-auto relative w-[80%] text-sm -mt-40 h-40 bg-red-600 bg-opacity-80 rounded-lg p-6">
+          <p className="text-white">
+            Are you sure you want to delete this notes?
+          </p>
+          <div className="mt-7   flex items-center justify-center">
+            <button
+              className="bg-white p-2 w-16 rounded-lg font-semibold hover:bg-green-700 mx-2"
+              onClick={deleteNotes}
+            >
+              Yes
+            </button>
+            <button
+              className="bg-white p-2 w-16 rounded-lg font-semibold hover:bg-red-700 mx-2"
+              onClick={() => setDeletePopUp(false)}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
       {err && (
         <div className="w-full bg-yellow-300 p-2 rounded mt-2  font-extrabold  font-mono text-black text-center">
           {err}

@@ -126,11 +126,24 @@ const editNotes = async (req, res) => {
   }
 };
 
-const deleteNotes = (req, res) => {
+const deleteNotes = async (req, res) => {
   try {
-    const id = user.id;
+    const { noteId } = req.params;
+    if (!noteId) {
+      return res.status(402).json({
+        message: "Error occur while deleting the notes.try agian!!",
+      });
+    }
+    const note = await Notes.findByIdAndDelete(noteId);
+
+    return res.status(200).json({
+      message: "Notes successfully deleted",
+      deletedNote: note,
+    });
   } catch (error) {
-    console.log(error.status, error.message);
+    res.status(error.statusCode || 501).json({
+      message: error.message || "Internal server error",
+    });
   }
 };
 export { createNotes, getNotes, getSpecificNotes, editNotes, deleteNotes };
