@@ -132,4 +132,27 @@ const loginUser = async (req, res) => {
   //set cookie in brower of user
   // sending response
 };
-export { registerUser, loginUser };
+
+const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(402).json({
+        message: "User id not found",
+      });
+    }
+
+    const user = await User.findByIdAndDelete(userId);
+
+    res.status(200).json({
+      message: "User deleted successfully",
+      deletedUser: user,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 501).json({
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+export { registerUser, loginUser, deleteUser };
