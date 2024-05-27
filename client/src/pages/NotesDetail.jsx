@@ -122,15 +122,19 @@ const AddNotePopUp = () => {
       />
       <button
         onClick={updateNotes}
-        className="w-full bg-yellow-500 p-2 rounded text-black font-bold z-0 "
+        className="relative px-6 py-3 w-full font-bold mb-2 mt-1 text-white rounded-lg group"
       >
-        {loading ? "Loading..." : "Update"}
-      </button>
+        <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+        <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
+        <span className="relative"> {loading ? "Loading..." : "Update"}</span>
+      </button>{" "}
       <button
         onClick={() => setDeletePopUp(true)}
-        className="w-full bg-red-500 p-2 mt-2 rounded text-black font-bold  "
+        className="relative px-6 py-3 w-full font-bold mt-1 text-white rounded-lg group"
       >
-        {loading2 ? "Loading..." : "Delete"}
+        <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-red-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+        <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-red-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
+        <span className="relative"> {loading2 ? "Loading..." : "Delete"}</span>
       </button>
       {deletePopUp && (
         <div className="mx-auto relative w-[80%] text-sm -mt-40 h-40 bg-red-600 bg-opacity-80 rounded-lg p-6">

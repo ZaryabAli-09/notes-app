@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import { useDispatch, useSelector } from "react-redux";
 import { editNotesAction } from "../reduxStore/store";
+import carAnimation from "../assets/caranimation.gif";
 const NotesPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const NotesPage = () => {
         </div>
 
         <div className="notes p-4 flex flex-col space-y-3">
-          {notes &&
+          {notes.length > 0 ? (
             notes.map((note) => {
               return (
                 <Link
@@ -74,7 +75,15 @@ const NotesPage = () => {
                   </div>
                 </Link>
               );
-            })}
+            })
+          ) : (
+            <div className="w-full flex flex-col items-center justify-center ">
+              <div className="text-yellow-500 font-bold text-center mr-14">
+                No Notes
+              </div>
+              <img src={carAnimation} alt="" className="w-[150px] mr-14  " />
+            </div>
+          )}
         </div>
 
         <div

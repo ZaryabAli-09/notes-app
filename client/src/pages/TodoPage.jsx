@@ -5,6 +5,7 @@ import Add from "../components/AddNoteBtn";
 import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import carAnimation from "../assets/caranimation.gif";
 
 const TodoPage = () => {
   const navigate = useNavigate();
@@ -65,14 +66,19 @@ const TodoPage = () => {
                     {new Date(todo.createdAt).toLocaleDateString()}
                   </div>
                   <MdAutoDelete
-                    className="text-white hover:text-red-500"
+                    className="text-white cursor-pointer hover:text-red-500"
                     onClick={() => onDeleteTodo(todo._id)}
                   />
                 </div>
               );
             })
           ) : (
-            <div className="text-white text-center mr-6">No todos</div>
+            <div className="w-full flex flex-col items-center justify-center ">
+              <div className="text-yellow-500 font-bold text-center mr-14">
+                No todos
+              </div>
+              <img src={carAnimation} alt="" className="w-[150px] mr-14  " />
+            </div>
           )}
         </div>
         <div

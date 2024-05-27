@@ -63,10 +63,16 @@ const TodoCreatePage = () => {
 
         <button
           onClick={onAddTodo}
-          className="w-full bg-yellow-500 p-2 rounded text-black font-bold "
+          className="relative px-6 py-3 w-full font-bold mt-1 text-white rounded-lg group"
         >
-          {loading ? "Loading..." : "Add Todo"}
+          <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+          <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
+          <span className="relative">
+            {" "}
+            {loading ? "Loading..." : "Add Todo"}
+          </span>
         </button>
+
         {err && (
           <div className="w-full bg-yellow-300 p-2 rounded mt-2  font-extrabold  font-mono text-black text-center">
             {err}
