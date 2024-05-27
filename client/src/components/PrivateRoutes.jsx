@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import TodoPage from "../pages/TodoPage";
 import Settings from "../pages/Settings";
 import CreateNotesPage from "../pages/CreateNotesPage";
+import TodoCreatePage from "../pages/TodoCreatePage";
 const PrivateRoutes = () => {
   const location = useLocation();
   const user = useSelector((state) => state.user);
@@ -23,6 +24,8 @@ const PrivateRoutes = () => {
         <NotesDetail />
       ) : location.pathname === "/notes-page/create" ? (
         <CreateNotesPage />
+      ) : location.pathname === "/todo/create" ? (
+        <TodoCreatePage />
       ) : (
         ""
       )}

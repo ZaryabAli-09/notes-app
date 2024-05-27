@@ -45,4 +45,23 @@ const deleteTodo = async (req, res) => {
   }
 };
 
-export { createTodo, deleteTodo };
+const getTodos = async (req, res) => {
+  try {
+    const { createdBy } = req.params;
+    if (!createdBy) {
+      return res.status(402).json({
+        message: "error occur while fetching todos",
+      });
+    }
+    const todos = await Todos.find({ createdBy });
+    res.status(200).json({
+      message: "All todos",
+      todosData: todos,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 501).json({
+      message: error.message || "Internal server error",
+    });
+  }
+};
+export { createTodo, deleteTodo, getTodos };

@@ -3,8 +3,10 @@ import { MdAutoDelete } from "react-icons/md";
 import { GrCompliance } from "react-icons/gr";
 import Add from "../components/AddNoteBtn";
 import Nav from "../components/Nav";
+import { useNavigate } from "react-router-dom";
 
 const TodoPage = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Nav />
@@ -46,7 +48,10 @@ const TodoPage = () => {
             <MdAutoDelete className="text-white hover:text-red-500" />
           </div>
         </div>
-        <div className="cursor-pointer">
+        <div
+          className="cursor-pointer"
+          onClick={() => navigate("/todo/create")}
+        >
           <Add />
         </div>
       </div>

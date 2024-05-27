@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PrivateRoutes from "./components/PrivateRoutes";
 import CreateNotesPage from "./pages/CreateNotesPage";
+import TodoCreatePage from "./pages/TodoCreatePage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             element={<CreateNotesPage />}
           ></Route>
           <Route path="/todo" element={<TodoPage />} />
+          <Route path="/todo/create" element={<TodoCreatePage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notes-details" element={<NotesDetail />} />
         </Route>

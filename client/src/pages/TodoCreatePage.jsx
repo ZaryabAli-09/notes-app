@@ -1,32 +1,30 @@
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const CreateNotesPage = () => {
+const TodoCreatePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.payload);
 
-  const [title, setTitle] = useState("");
-  const [notesDescription, setNotesDescription] = useState("");
+  const [todo, setTodo] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState();
-  const onAddNotes = async () => {
+
+  const onAddTodo = async () => {
     try {
-      const fromData = {
-        title,
-        notesDescription,
+      const formData = {
+        todo,
         createdBy: user._id,
       };
       setLoading(true);
-      const res = await fetch("/api/notes/create", {
+      const res = await fetch("/api/todos/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(fromData),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
@@ -38,7 +36,7 @@ const CreateNotesPage = () => {
         setLoading(false);
         setErr(data.message);
         setTimeout(() => {
-          navigate("/notes-page");
+          navigate("/todo");
         }, 1000);
       }
     } catch (error) {
@@ -52,27 +50,22 @@ const CreateNotesPage = () => {
         <button className="mb-5">
           <FaArrowAltCircleLeft
             className="text-2xl text-yellow-500 "
-            onClick={() => navigate("/notes-page")}
+            onClick={() => navigate("/todo")}
           />
         </button>
         <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={todo}
+          onChange={(e) => setTodo(e.target.value)}
           type="text"
-          placeholder="Title"
-          className="w-full bg-neutral-800 text-white p-3 rounded mb-2"
+          placeholder="Enter your todo"
+          className="w-full mt-24 bg-neutral-800 text-white p-8 rounded mb-2 outline-yellow-500"
         />
-        <ReactQuill
-          onChange={(value) => setNotesDescription(value)}
-          className=" text-white bg-black mb-12 h-32"
-          theme="snow"
-          placeholder="write something here"
-        />
+
         <button
-          onClick={onAddNotes}
+          onClick={onAddTodo}
           className="w-full bg-yellow-500 p-2 rounded text-black font-bold "
         >
-          {loading ? "Loading..." : "Add"}
+          {loading ? "Loading..." : "Add Todo"}
         </button>
         {err && (
           <div className="w-full bg-yellow-300 p-2 rounded mt-2  font-extrabold  font-mono text-black text-center">
@@ -84,4 +77,4 @@ const CreateNotesPage = () => {
   );
 };
 
-export default CreateNotesPage;
+export default TodoCreatePage;
