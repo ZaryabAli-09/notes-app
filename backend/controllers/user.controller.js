@@ -155,4 +155,17 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, deleteUser };
+const logoutUser = async (req, res) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .clearCookie("refresh_token")
+      .status(200)
+      .json("User has been signed out");
+  } catch (error) {
+    return res.status(error.statusCode || 501).json({
+      message: error.message || "Internal server error",
+    });
+  }
+};
+export { registerUser, loginUser, deleteUser, logoutUser };
