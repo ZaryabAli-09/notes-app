@@ -130,7 +130,7 @@ const deleteNotes = async (req, res) => {
   try {
     const { noteId } = req.params;
     if (!noteId) {
-      return res.status(402).json({
+      return res.status(404).json({
         message: "Error occur while deleting the notes.try agian!!",
       });
     }

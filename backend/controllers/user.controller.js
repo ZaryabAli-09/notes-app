@@ -29,14 +29,14 @@ const registerUser = async (req, res) => {
 
     if (!avatarFileLocalPath) {
       return res
-        .status(402)
+        .status(404)
         .json({ message: "Error occur while uploading avatar to server" });
     }
 
     const avatar = await uploadToCloudinary(avatarFileLocalPath);
     if (!avatar) {
       return res
-        .status(402)
+        .status(404)
         .json({ message: "Error occur while uploading avatar to server" });
     }
 
@@ -137,7 +137,7 @@ const deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
     if (!userId) {
-      return res.status(402).json({
+      return res.status(404).json({
         message: "User id not found",
       });
     }
