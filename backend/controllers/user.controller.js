@@ -26,18 +26,19 @@ const registerUser = async (req, res) => {
     );
 
     const avatarFileLocalPath = req.file.path;
+    console.log(req.file);
 
     if (!avatarFileLocalPath) {
       return res
-        .status(404)
-        .json({ message: "Error occur while uploading avatar to server" });
+        .status(400)
+        .json({ message: "Error occur while uplaoding avatar to server." });
     }
 
     const avatar = await uploadToCloudinary(avatarFileLocalPath);
     if (!avatar) {
       return res
-        .status(404)
-        .json({ message: "Error occur while uploading avatar to server" });
+        .status(400)
+        .json({ message: "Error occur.File size is too large." });
     }
 
     const savedUser = User({
@@ -82,7 +83,7 @@ const loginUser = async (req, res) => {
       isUserRegistered.password
     );
     if (!isPasswordValid) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: "Invalid credentials",
       });
     }
@@ -123,14 +124,6 @@ const loginUser = async (req, res) => {
   } catch (error) {
     return res.status(501).json({ message: error.message });
   }
-
-  // getting email and password from frontend
-  //valiadatiom of email and password if it is null or ""empty
-  //check if user is registered or not
-  //comparing password
-  //generate access and refresh token
-  //set cookie in brower of user
-  // sending response
 };
 
 const deleteUser = async (req, res) => {

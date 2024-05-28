@@ -7,6 +7,7 @@ const Settings = () => {
   const user = useSelector((state) => state.user.payload);
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
+
   console.log(user);
   const logout = async () => {
     setLogoutLoading(true);
@@ -17,6 +18,9 @@ const Settings = () => {
       },
     });
     const data = await res.json();
+    if (!res.ok) {
+      return alert(data.message);
+    }
     if (res.ok) {
       setLogoutLoading(false);
       navigate("/");
@@ -61,10 +65,40 @@ const Settings = () => {
 
       <div className="mt-10">
         <h3 className="text-xl text-yellow-600 font-bold">Privacy Policy</h3>
-        <h3 className="text-md text-yellow-600 font-semibold">......</h3>
+        <p className="text-sm text-yellow-600 font-semibold">
+          At KEEP, we value your privacy and are committed to protecting your
+          personal information. We collect personal data (like name, email) and
+          usage data to provide and improve our services. Your information is
+          secured with us and shared only when necessary, such as for legal
+          reasons or business transactions. You have rights over your data,
+          including access, correction, and deletion. We may update this policy,
+          so please review it periodically. For any questions, contact us at
+          khanzaryab249@gmail.com.
+        </p>
       </div>
       <br />
       <hr />
+      {deletePopUp && (
+        <div className="mx-auto relative bg-opacity-70 top-16   w-[80%] text-sm -mt-40 h-40 bg-red-600  rounded-lg p-6">
+          <p className="text-white text-center">
+            Are you sure you want to delete this notes?
+          </p>
+          <div className="mt-7   flex items-center justify-center">
+            <button
+              className="bg-white p-2 text-black w-16 rounded-lg font-semibold hover:bg-green-700 mx-2"
+              onClick={deleteAccount}
+            >
+              Yes
+            </button>
+            <button
+              className="bg-white text-black p-2 w-16 rounded-lg font-semibold hover:bg-red-700 mx-2"
+              onClick={() => setDeletePopUp(false)}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
       <div className="mt-10 flex flex-col space-y-1 ">
         <button
           onClick={logout}
@@ -79,27 +113,6 @@ const Settings = () => {
         >
           Delete Account
         </button>
-        {deletePopUp && (
-          <div className="mx-auto relative w-[80%] text-sm -mt-40 h-40 bg-red-600 bg-opacity-80 rounded-lg p-6">
-            <p className="text-white">
-              Are you sure you want to delete this notes?
-            </p>
-            <div className="mt-7   flex items-center justify-center">
-              <button
-                className="bg-white p-2 text-black w-16 rounded-lg font-semibold hover:bg-green-700 mx-2"
-                onClick={deleteAccount}
-              >
-                Yes
-              </button>
-              <button
-                className="bg-white text-black p-2 w-16 rounded-lg font-semibold hover:bg-red-700 mx-2"
-                onClick={() => setDeletePopUp(false)}
-              >
-                No
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

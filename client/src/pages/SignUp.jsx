@@ -9,9 +9,14 @@ const SignUp = () => {
   const [file, setFile] = useState("");
   const [err, setErr] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
+
   const submitHandler = async () => {
     try {
+      if (file && file["type"].split("/")[0] !== "image") {
+        return setErr("Please upload an image!");
+      }
       const formData = new FormData();
       formData.append("avatar", file);
       formData.append("username", username);
@@ -105,6 +110,7 @@ const SignUp = () => {
             setFile(e.target.files[0]);
           }}
           type="file"
+          accept="image/*"
           placeholder="Upload Avatar"
           className="bg-yellow-700 rounded hover:bg-yellow-900 cursor-pointer text-black font-extrabold  font-mono"
         />
