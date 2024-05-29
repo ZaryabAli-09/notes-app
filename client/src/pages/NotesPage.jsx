@@ -44,13 +44,13 @@ const NotesPage = () => {
     <>
       <Nav />
       <div className="text-white">
-        <div className="bg-black w-full flex items-center justify-center pb-3">
+        {/* <div className="bg-black w-full flex items-center justify-center pb-3">
           <input
             type="text"
             className="w-3/4 bg-neutral-800 rounded-3xl text-xs p-3 pl-3 border-none outline-none"
             placeholder="Search notes"
           />
-        </div>
+        </div> */}
 
         <div className="notes p-4 flex flex-col space-y-3">
           {notes.length > 0 ? (
@@ -61,10 +61,12 @@ const NotesPage = () => {
                   to={"/notes-details"}
                   onClick={() => getNoteId(note._id)}
                 >
-                  <div className="note-1 bg-neutral-800 rounded-lg p-2">
-                    <h3 className="font-bold text-sm ">{note.title}</h3>
+                  <div className="note-1 bg-neutral-200 rounded-lg p-2">
+                    <h3 className="font-bold text-sm text-black ">
+                      {note.title.charAt(0).toUpperCase() + note.title.slice(1)}
+                    </h3>
                     <p
-                      className="text-sm text-neutral-400"
+                      className="text-sm text-black"
                       dangerouslySetInnerHTML={{
                         __html: note && truncate(note.notesDescription, 12),
                       }}

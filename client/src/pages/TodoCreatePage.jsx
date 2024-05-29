@@ -58,12 +58,13 @@ const TodoCreatePage = () => {
           onChange={(e) => setTodo(e.target.value)}
           type="text"
           placeholder="Enter your todo"
-          className="w-full mt-24 bg-neutral-800 text-white p-8 rounded mb-2 outline-yellow-500"
+          // className="text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 "
+          className="w-full mt-24 bg-neutral-200 text-black p-8 rounded mb-2 outline-yellow-500 placeholder:text-gray-500 font-semibold text-sm "
         />
 
         <button
           onClick={onAddTodo}
-          className="relative px-6 py-3 w-full font-bold mt-1 text-white rounded-lg group"
+          className="relative px-6 py-3 w-full font-bold mt-1 text-black rounded-lg group"
         >
           <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
           <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>

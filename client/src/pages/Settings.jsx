@@ -46,17 +46,17 @@ const Settings = () => {
           onClick={() => navigate("/notes-page")}
         />
       </button>
-      <h1 className="text-2xl text-yellow-600 font-extrabold italic ">KEEP</h1>
-      <p className="text-md text-yellow-600 font-semibold">
+      <h1 className="text-2xl text-yellow-700 font-extrabold italic ">KEEP</h1>
+      <p className="text-md text-yellow-700 font-semibold">
         Make your notes and set todo's easily with KEEP
       </p>
       <br />
       <hr />
-      <div className="info mt-10">
-        <h3 className="text-xl text-yellow-600 font-semibold">
+      <div className="info mt-5">
+        <h3 className="text-md text-yellow-700 font-semibold">
           {user.username.toUpperCase()}
         </h3>
-        <h3 className="text-md text-yellow-600 font-semibold">
+        <h3 className="text-sm text-yellow-700 font-semibold">
           {user.email.toUpperCase()}
         </h3>
       </div>
@@ -64,8 +64,8 @@ const Settings = () => {
       <hr />
 
       <div className="mt-10">
-        <h3 className="text-xl text-yellow-600 font-bold">Privacy Policy</h3>
-        <p className="text-sm text-yellow-600 font-semibold">
+        <h3 className="text-xl text-yellow-700 font-bold">Privacy Policy</h3>
+        <p className="text-sm text-yellow-700 font-semibold">
           At KEEP, we value your privacy and are committed to protecting your
           personal information. We collect personal data (like name, email) and
           usage data to provide and improve our services. Your information is
@@ -81,7 +81,7 @@ const Settings = () => {
       {deletePopUp && (
         <div className="mx-auto relative bg-opacity-70 top-16   w-[80%] text-sm -mt-40 h-40 bg-red-600  rounded-lg p-6">
           <p className="text-white text-center">
-            Are you sure you want to delete this notes?
+            Are you sure you want to delete this account?
           </p>
           <div className="mt-7   flex items-center justify-center">
             <button
@@ -102,14 +102,14 @@ const Settings = () => {
       <div className="mt-10 flex flex-col space-y-1 ">
         <button
           onClick={logout}
-          className="bg-yellow-500 p-2 w-32 rounded-md hover:bg-yellow-700 font-bold text-black uppercase text-xs"
+          className="bg-yellow-500 p-2 w-32 rounded-md hover:bg-yellow-400 font-bold text-black uppercase text-xs"
         >
           {logoutLoading ? "Loading..." : "Logout"}
         </button>
 
         <button
           onClick={() => setDeletePopUp(true)}
-          className="bg-yellow-500 p-2 w-32 rounded-md hover:bg-yellow-700 font-bold text-black uppercase text-xs"
+          className="bg-yellow-500 p-2 w-32 rounded-md hover:bg-yellow-400 font-bold text-black uppercase text-xs"
         >
           Delete Account
         </button>

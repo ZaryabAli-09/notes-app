@@ -52,8 +52,8 @@ const SignIn = () => {
     }
   };
   return (
-    <div className="text-white">
-      <div className="text-yellow-600 text-center my-12 text-3xl font-extrabold  font-mono">
+    <div>
+      <div className="text-yellow-600 text-center pt-12 text-3xl font-extrabold  font-mono">
         <TypeAnimation
           sequence={[
             "Welcome To KEEP",
@@ -64,7 +64,7 @@ const SignIn = () => {
             1000,
             "Manage tasks easier",
             1000,
-            "Manage Todo list online",
+            "Make Todolist online",
             1000,
           ]}
           speed={40}
@@ -76,7 +76,7 @@ const SignIn = () => {
         <img src={birdAnimation} className="w-[250]" alt="" />
       </div>
 
-      <h1 className="text-yellow-600 text-center  text-xl font-extrabold  font-mono">
+      <h1 className="text-yellow-600 px-10 text-xl font-extrabold  font-mono">
         Sign In
       </h1>
       <div className="flex flex-col space-y-3 p-10 ">
@@ -84,7 +84,7 @@ const SignIn = () => {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
-          className="bg-yellow-700 text-black outline-none p-3 rounded"
+          className="text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 "
           type="email"
           placeholder="Email"
         />
@@ -92,14 +92,14 @@ const SignIn = () => {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
-          className="bg-yellow-700 text-black outline-none p-3 rounded"
+          className="text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 "
           type="password"
           placeholder="Password"
         />
 
         <button
           onClick={submitHandler}
-          className="relative px-6 py-3 font-bold text-white rounded-lg group"
+          className="relative px-6 py-3 font-bold text-black rounded-lg group"
         >
           <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
           <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
@@ -113,8 +113,13 @@ const SignIn = () => {
           </div>
         )}
       </div>
-      <span className="ml-11 text-sm hover:underline 00 cursor-default">
-        <Link to={"/"}>don't have an account?</Link>
+      <span className="px-10 text-sm ">
+        have an account?{" "}
+        <Link to={"/"}>
+          <span className="hover:underline hover:text-blue-700 cursor-pointer font-bold text-xs">
+            Sign Up
+          </span>{" "}
+        </Link>
       </span>
     </div>
   );

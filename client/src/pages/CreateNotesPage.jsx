@@ -59,18 +59,18 @@ const CreateNotesPage = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
-          placeholder="Title"
-          className="w-full bg-neutral-800 text-white p-3 rounded mb-2"
+          placeholder="Enter your title here"
+          className="w-full text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 mb-2"
         />
         <ReactQuill
           onChange={(value) => setNotesDescription(value)}
-          className=" text-white bg-black mb-12 h-32"
+          className=" text-black bg-white mb-12 h-32"
           theme="snow"
           placeholder="write something here"
         />
         <button
           onClick={onAddNotes}
-          className="relative px-6 py-3 w-full font-bold mt-1 text-white rounded-lg group"
+          className="relative px-6 py-3 w-full font-bold mt-1 text-black rounded-lg group"
         >
           <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
           <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>

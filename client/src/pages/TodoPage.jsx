@@ -56,17 +56,19 @@ const TodoPage = () => {
               return (
                 <div
                   key={todo._id}
-                  className="note-1 bg-neutral-800 rounded-lg p-4 flex items-center justify-between w-full"
+                  className="note-1 bg-yellow-500 rounded-lg p-4 flex items-center justify-between w-full"
                 >
                   <div className="flex items-center space-x-2">
-                    <GrCompliance className="hover:text-green-500" />
-                    <h3 className="font-bold text-sm ">{todo.todo}</h3>
+                    <GrCompliance className="text-green-600" />
+                    <h3 className="font-bold text-sm text-black">
+                      {todo.todo.charAt(0).toUpperCase() + todo.todo.slice(1)}
+                    </h3>
                   </div>
-                  <div className="absolute right-20 text-xs">
+                  <div className="absolute right-20 text-xs text-neutral-700 font-semibold">
                     {new Date(todo.createdAt).toLocaleDateString()}
                   </div>
                   <MdAutoDelete
-                    className="text-white cursor-pointer hover:text-red-500"
+                    className="text-black cursor-pointer hover:text-red-600"
                     onClick={() => onDeleteTodo(todo._id)}
                   />
                 </div>

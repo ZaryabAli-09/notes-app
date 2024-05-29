@@ -111,18 +111,18 @@ const AddNotePopUp = () => {
         onChange={(e) => setTitle(e.target.value)}
         type="text"
         placeholder="Title"
-        className="w-full text-white bg-neutral-800 p-3 rounded mb-2"
+        className="w-full text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 mb-2"
       />
       <ReactQuill
         value={notesDescription}
         onChange={(value) => setNotesDescription(value)}
-        className=" text-white bg-black mb-12 h-32"
+        className=" text-black bg-white mb-12 h-32"
         theme="snow"
         placeholder="write something here"
       />
       <button
         onClick={updateNotes}
-        className="relative px-6 py-3 w-full font-bold mb-2 mt-1 text-white rounded-lg group"
+        className="relative px-6 py-3 w-full font-bold mb-2 mt-1 text-black rounded-lg group"
       >
         <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
         <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
@@ -130,7 +130,7 @@ const AddNotePopUp = () => {
       </button>{" "}
       <button
         onClick={() => setDeletePopUp(true)}
-        className="relative px-6 py-3 w-full font-bold mt-1 text-white rounded-lg group"
+        className="relative px-6 py-3 w-full font-bold mt-1 text-black rounded-lg group"
       >
         <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-red-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
         <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-red-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
