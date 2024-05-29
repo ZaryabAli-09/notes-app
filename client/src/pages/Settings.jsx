@@ -8,7 +8,6 @@ const Settings = () => {
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
 
-  console.log(user);
   const logout = async () => {
     setLogoutLoading(true);
     const res = await fetch("/api/users/logout", {

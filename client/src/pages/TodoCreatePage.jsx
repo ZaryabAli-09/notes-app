@@ -31,6 +31,7 @@ const TodoCreatePage = () => {
       if (!res.ok) {
         setLoading(false);
         setErr(data.message);
+        return;
       }
       if (res.ok) {
         setLoading(false);
@@ -58,7 +59,6 @@ const TodoCreatePage = () => {
           onChange={(e) => setTodo(e.target.value)}
           type="text"
           placeholder="Enter your todo"
-          // className="text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 "
           className="w-full mt-24 bg-neutral-200 text-black p-8 rounded mb-2 outline-yellow-500 placeholder:text-gray-500 font-semibold text-sm "
         />
 

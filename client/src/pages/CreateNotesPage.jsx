@@ -33,6 +33,7 @@ const CreateNotesPage = () => {
       if (!res.ok) {
         setLoading(false);
         setErr(data.message);
+        return;
       }
       if (res.ok) {
         setLoading(false);

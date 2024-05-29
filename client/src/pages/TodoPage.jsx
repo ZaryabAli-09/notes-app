@@ -5,7 +5,7 @@ import Add from "../components/AddNoteBtn";
 import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import carAnimation from "../assets/caranimation.gif";
+import searchAnimation from "../assets/searchanimation.gif";
 
 const TodoPage = () => {
   const navigate = useNavigate();
@@ -19,13 +19,13 @@ const TodoPage = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        return console.log(data);
+        return alert(data.message);
       }
       if (res.ok) {
         setTodos(data.todosData);
       }
     } catch (error) {
-      console.log(error);
+      return alert(error.message);
     }
   };
   const onDeleteTodo = async (todoId) => {
@@ -76,10 +76,7 @@ const TodoPage = () => {
             })
           ) : (
             <div className="w-full flex flex-col items-center justify-center ">
-              <div className="text-yellow-500 font-bold text-center mr-14">
-                No todos
-              </div>
-              <img src={carAnimation} alt="" className="w-[150px] mr-14  " />
+              <img src={searchAnimation} alt="" className="w-[150px] mr-14  " />
             </div>
           )}
         </div>

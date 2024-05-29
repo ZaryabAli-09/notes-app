@@ -18,20 +18,28 @@ const AddNotePopUp = () => {
   const [deletePopUp, setDeletePopUp] = useState(false);
 
   const getNote = async () => {
-    const res = await fetch(`/api/notes/get-specific-note/${noteId.payload}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `/api/notes/get-specific-note/${noteId.payload}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
 
-    if (res.ok) {
-      setNotesDescription(data.notesData.notesDescription);
-      setTitle(data.notesData.title);
-    }
-    if (!res.ok) {
-      setLoading(false);
+      if (res.ok) {
+        setNotesDescription(data.notesData.notesDescription);
+        setTitle(data.notesData.title);
+      }
+      if (!res.ok) {
+        setLoading(false);
+        setErr(data.message);
+        return;
+      }
+    } catch (error) {
       setErr(data.message);
     }
   };
@@ -61,6 +69,7 @@ const AddNotePopUp = () => {
       if (!res.ok) {
         setLoading(false);
         setErr(data.message);
+        return;
       }
     } catch (error) {
       setLoading(false);

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import { useDispatch, useSelector } from "react-redux";
 import { editNotesAction } from "../reduxStore/store";
-import carAnimation from "../assets/caranimation.gif";
+import searchAnimation from "../assets/searchanimation.gif";
 const NotesPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -12,18 +12,22 @@ const NotesPage = () => {
   const [notes, setNotes] = useState([]);
 
   const getNotes = async () => {
-    const res = await fetch(`/api/notes/get-notes/${user._id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setNotes(data.notesData);
-    }
-    if (!res.ok) {
-      console.log(data);
+    try {
+      const res = await fetch(`/api/notes/get-notes/${user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNotes(data.notesData);
+      }
+      if (!res.ok) {
+        return alert(data.message);
+      }
+    } catch (error) {
+      return alert(error.message);
     }
   };
   const truncate = (str, maxLength) => {
@@ -80,10 +84,7 @@ const NotesPage = () => {
             })
           ) : (
             <div className="w-full flex flex-col items-center justify-center ">
-              <div className="text-yellow-500 font-bold text-center mr-14">
-                No Notes
-              </div>
-              <img src={carAnimation} alt="" className="w-[150px] mr-14  " />
+              <img src={searchAnimation} alt="" className="w-[150px] mr-14  " />
             </div>
           )}
         </div>

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link, json } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userActions } from "../reduxStore/store";
 import birdAnimation from "../assets/birdanimation.gif";
 import { TypeAnimation } from "react-type-animation";
-import loadingAnim from "../assets/loading.gif";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ const SignIn = () => {
       if (res.ok) {
         setLoading(false);
         setErr(data.message);
-        console.log(data);
         dispatch(userActions.userSignIn(data.userData));
         setTimeout(() => {
           navigate("/notes-page");
