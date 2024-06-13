@@ -84,7 +84,7 @@ const NotesPage = () => {
             })
           ) : (
             <div className="w-full flex flex-col items-center justify-center ">
-              <img src={searchAnimation} alt="" className="w-[150px] mr-14  " />
+              <img src={searchAnimation} alt="" className="w-[150px]   " />
             </div>
           )}
         </div>

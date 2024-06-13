@@ -10,7 +10,7 @@ const Nav = () => {
 
   return (
     <nav className=" border-b flex items-center p-3">
-      <div className="flex items-center justify-center w-[90vw] space-x-8">
+      <div className="flex items-center justify-center w-full space-x-8">
         <Link to={"/notes-page"}>
           <CgNotes
             className={` text-3xl hover:text-yellow-400 ${
@@ -30,7 +30,7 @@ const Nav = () => {
           />
         </Link>
       </div>
-      <div className="flex items-center justify-end w-[50px] mr-1">
+      <div className=" absolute right-0 w-[50px] ">
         <Link to={"/settings"}>
           {user ? (
             <img

@@ -1,4 +1,5 @@
 import express from "express";
+// import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { dbConnection } from "./db/db.js";
 import cookieParser from "cookie-parser";
@@ -8,6 +9,14 @@ import todosRoutes from "./routes/todos.routes.js";
 dotenv.config();
 const app = express();
 
+// kyzy lkjx jjdm ttjb
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "khanzaryab249@gmail.com",
+//     pass: "kyzylkjxjjdmttjb",
+//   },
+// });
 // built in middlewares
 app.use(cookieParser());
 app.use(express.json());

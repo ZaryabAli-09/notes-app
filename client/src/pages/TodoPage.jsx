@@ -12,6 +12,7 @@ const TodoPage = () => {
   const user = useSelector((state) => state.user);
 
   const [todos, setTodos] = useState([]);
+
   const getTodos = async () => {
     try {
       const res = await fetch(`/api/todos/get/${user.payload._id}`, {
@@ -38,6 +39,7 @@ const TodoPage = () => {
         return alert(data.message);
       }
       if (res.ok) {
+        setTodos(todos.filter((todo) => todo._id !== todoId));
       }
     } catch (error) {
       alert(error.message);
@@ -45,7 +47,7 @@ const TodoPage = () => {
   };
   useEffect(() => {
     getTodos();
-  }, [todos]);
+  }, []);
   return (
     <>
       <Nav />
@@ -76,7 +78,7 @@ const TodoPage = () => {
             })
           ) : (
             <div className="w-full flex flex-col items-center justify-center ">
-              <img src={searchAnimation} alt="" className="w-[150px] mr-14  " />
+              <img src={searchAnimation} alt="" className="w-[150px]  " />
             </div>
           )}
         </div>
