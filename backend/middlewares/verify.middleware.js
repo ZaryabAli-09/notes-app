@@ -2,9 +2,8 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 const verifyUser = async (req, res, next) => {
   const userBrowserAccessToken = req.cookies.access_token;
-  const userBrowserRefreshToken = req.cookies.refresh_token;
 
-  if (!userBrowserAccessToken || !userBrowserRefreshToken) {
+  if (!userBrowserAccessToken) {
     return res.status(401).json({
       message: "Unauthorized user",
     });
@@ -12,10 +11,6 @@ const verifyUser = async (req, res, next) => {
   const decodedAccessToken = jwt.verify(
     userBrowserAccessToken,
     process.env.ACCESS_TOKEN_SECRET
-  );
-  const decodedRefreshToken = jwt.verify(
-    userBrowserRefreshToken,
-    process.env.REFRESH_TOKEN_SECRET
   );
 
   if (!decodedAccessToken) {
@@ -30,9 +25,8 @@ const verifyUser = async (req, res, next) => {
       message: "Invalid Token || Unauthorized",
     });
   }
-  if (decodedRefreshToken.username === user.username) {
-    next();
-  }
+
+  next();
 };
 
 export { verifyUser };

@@ -52,14 +52,6 @@ const registerUser = async (req, res) => {
 
     const encryptedPassword = bcryptjs.hashSync(password, 10);
 
-    const refreshToken = jwt.sign(
-      { username, email },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
-
     const avatarFileLocalPath = req.file.path;
     console.log(req.file);
 
@@ -91,7 +83,6 @@ const registerUser = async (req, res) => {
       password: encryptedPassword,
       avatar: avatar.url,
       verificationToken,
-      refreshToken,
     });
     await savedUser.save();
 
@@ -118,7 +109,6 @@ const registerUser = async (req, res) => {
       }
     });
     savedUser.password = undefined;
-    savedUser.refreshToken = undefined;
   } catch (error) {
     return res.status(501).json({ message: error.message });
   }
@@ -150,17 +140,6 @@ const loginUser = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-    const refreshTokenPayload = {
-      username: isUserRegistered.username,
-      email: isUserRegistered.email,
-    };
-    const refreshToken = jwt.sign(
-      refreshTokenPayload,
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "30d",
-      }
-    );
     const accessTokenPayload = {
       _id: isUserRegistered._id,
       email: isUserRegistered.email,
@@ -173,17 +152,11 @@ const loginUser = async (req, res) => {
       }
     );
 
-    isUserRegistered.refreshToken = undefined;
     isUserRegistered.password = undefined;
-    res
-      .status(200)
-      .cookie("access_token", accessToken)
-      .cookie("refresh_token", refreshToken)
-      .json({
-        message: "User logged in successfully",
-        userData: isUserRegistered,
-        tokens: [accessToken, refreshToken],
-      });
+    res.status(200).cookie("access_token", accessToken).json({
+      message: "User logged in successfully",
+      userData: isUserRegistered,
+    });
   } catch (error) {
     return res.status(501).json({ message: error.message });
   }
@@ -215,7 +188,6 @@ const logoutUser = async (req, res) => {
   try {
     res
       .clearCookie("access_token")
-      .clearCookie("refresh_token")
       .status(200)
       .json("User has been signed out");
   } catch (error) {
