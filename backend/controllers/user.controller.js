@@ -2,7 +2,42 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { uploadToCloudinary } from "../utils/cloudinaryConfig.js";
+import nodemailer from "nodemailer";
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+const verifyEmail = async (req, res) => {
+  const { token } = req.params;
+
+  if (!token) {
+    return res.status(400).redirect(process.env.FRONTEND_EMAIL_INVALID_URL);
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const email = decoded.email;
+
+    // Find user and update verification status
+    const user = await User.findOne({ email, verificationToken: token });
+    if (!user) {
+      return res.status(400).redirect(process.env.FRONTEND_EMAIL_INVALID_URL);
+    }
+
+    user.isVerified = true;
+    user.verificationToken = null;
+    await user.save();
+
+    res.status(200).redirect(process.env.FRONTEND_EMAIL_VERIFIED_URL);
+  } catch (error) {
+    return res.status(400).redirect(process.env.FRONTEND_EMAIL_INVALID_URL);
+  }
+};
 const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -41,21 +76,49 @@ const registerUser = async (req, res) => {
         .json({ message: "Error occur.File size is too large." });
     }
 
+    // Generate verification Token
+    const verificationToken = jwt.sign(
+      { email },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
     const savedUser = User({
       username,
       email,
       password: encryptedPassword,
       avatar: avatar.url,
+      verificationToken,
       refreshToken,
     });
     await savedUser.save();
+
+    // send verification email
+    const verificationLink = `http://localhost:3000/api/users/verify-email/${verificationToken}`;
+    const mailOptions = {
+      from: "khanzaryab249@gmail.com",
+      to: email,
+      subject: "Email verification",
+      text: `Please verify you email by clicking the following link:${verificationLink}`,
+    };
+    transporter.sendMail(mailOptions, async (err, info) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          message: err.message,
+        });
+      } else {
+        return res.status(200).json({
+          message:
+            "User successfully registered. Please check your email to verify your account",
+          userData: savedUser,
+        });
+      }
+    });
     savedUser.password = undefined;
     savedUser.refreshToken = undefined;
-
-    res.status(200).json({
-      message: "User successfully registered",
-      userData: savedUser,
-    });
   } catch (error) {
     return res.status(501).json({ message: error.message });
   }
@@ -161,4 +224,4 @@ const logoutUser = async (req, res) => {
     });
   }
 };
-export { registerUser, loginUser, deleteUser, logoutUser };
+export { registerUser, loginUser, deleteUser, logoutUser, verifyEmail };

@@ -34,9 +34,6 @@ const SignUp = () => {
       if (res.ok) {
         setLoading(false);
         setErr(data.message);
-        setTimeout(() => {
-          navigate("/sign-in");
-        }, 1000);
       }
       if (!res.ok) {
         setLoading(false);

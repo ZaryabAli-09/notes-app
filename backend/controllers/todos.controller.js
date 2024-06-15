@@ -54,7 +54,7 @@ const getTodos = async (req, res) => {
     }
     const todos = await Todos.find({ createdBy });
     const totalTodos = await Todos.findOne({ createdBy }).countDocuments();
-    // console.log(totalTodos);
+
     res.status(200).json({
       totalTodos,
       message: "All todos",

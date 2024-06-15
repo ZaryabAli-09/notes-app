@@ -9,6 +9,8 @@ import SignUp from "./pages/SignUp";
 import PrivateRoutes from "./components/PrivateRoutes";
 import CreateNotesPage from "./pages/CreateNotesPage";
 import TodoCreatePage from "./pages/TodoCreatePage";
+import EmailInvalidPage from "./emailVerificationPages/EmailInvalidPage";
+import EmailVerifedPage from "./emailVerificationPages/EmailVerifedPage";
 
 const App = () => {
   return (
@@ -16,6 +18,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route
+          path="/your-email-is-verified-successfully"
+          element={<EmailVerifedPage />}
+        />
+        <Route path="/your-email-is-invalid" element={<EmailInvalidPage />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/notes-page" element={<NotesPage />} />
           <Route
