@@ -23,10 +23,12 @@ const verifyEmail = async (req, res) => {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
+    const verificationToken = token;
     // Find user and update verification status
-    const user = await User.findOne({ email, verificationToken: token });
+    const user = await User.findOne({ email, verificationToken });
+
     if (!user) {
-      return res.status(400).redirect(process.env.FRONTEND_EMAIL_INVALID_URL);
+      return res.status(400).send("invalid token"); //redirect(process.env.FRONTEND_EMAIL_INVALID_URL);
     }
 
     user.isVerified = true;
@@ -53,7 +55,6 @@ const registerUser = async (req, res) => {
     const encryptedPassword = bcryptjs.hashSync(password, 10);
 
     const avatarFileLocalPath = req.file.path;
-    console.log(req.file);
 
     if (!avatarFileLocalPath) {
       return res
@@ -96,7 +97,6 @@ const registerUser = async (req, res) => {
     };
     transporter.sendMail(mailOptions, async (err, info) => {
       if (err) {
-        console.log(err);
         return res.status(500).json({
           message: err.message,
         });
@@ -125,6 +125,7 @@ const loginUser = async (req, res) => {
     }
 
     const isUserRegistered = await User.findOne({ email });
+
     if (!isUserRegistered) {
       return res.status(404).json({
         message: "User not found",
@@ -135,28 +136,74 @@ const loginUser = async (req, res) => {
       password,
       isUserRegistered.password
     );
+
     if (!isPasswordValid) {
       return res.status(400).json({
         message: "Invalid credentials",
       });
     }
-    const accessTokenPayload = {
-      _id: isUserRegistered._id,
-      email: isUserRegistered.email,
-    };
-    const accessToken = jwt.sign(
-      accessTokenPayload,
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
 
     isUserRegistered.password = undefined;
-    res.status(200).cookie("access_token", accessToken).json({
-      message: "User logged in successfully",
-      userData: isUserRegistered,
-    });
+    // check if user is verified
+    if (isUserRegistered.isVerified == true) {
+      const accessTokenPayload = {
+        _id: isUserRegistered._id,
+        email: isUserRegistered.email,
+      };
+      const accessToken = jwt.sign(
+        accessTokenPayload,
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "10d",
+        }
+      );
+      return res.status(200).cookie("access_token", accessToken).json({
+        message: "User logged in successfully",
+        userData: isUserRegistered,
+      });
+    }
+
+    // if user is not verified then
+    if (isUserRegistered.isVerified != true) {
+      // Generate verification Token
+      const newVerificationToken = jwt.sign(
+        { email },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
+      const user = await User.findOneAndUpdate(
+        { email },
+        {
+          $set: {
+            verificationToken: newVerificationToken,
+          },
+        },
+        { new: true }
+      );
+
+      // send verification link
+      const verificationLink = `http://localhost:3000/api/users/verify-email/${user.verificationToken}`;
+      const mailOptions = {
+        from: "khanzaryab249@gmail.com",
+        to: email,
+        subject: "Email verification",
+        text: `Please verify you email by clicking the following link:${verificationLink}`,
+      };
+      transporter.sendMail(mailOptions, async (err, info) => {
+        if (err) {
+          return res.status(500).json({
+            message: err.message,
+          });
+        } else {
+          res.status(401).json({
+            message:
+              "Your account is not verified. Please verify your account by clicking on verification link sent to your email",
+          });
+        }
+      });
+    }
   } catch (error) {
     return res.status(501).json({ message: error.message });
   }
