@@ -11,7 +11,7 @@ const TodoPage = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(null);
 
   const getTodos = async () => {
     try {
@@ -53,7 +53,9 @@ const TodoPage = () => {
       <Nav />
       <div className="text-white">
         <div className="notes p-4 flex flex-col  space-y-3">
-          {todos.length > 0 ? (
+          {todos && todos.length <= 0 ? (
+            <div className="text-black">no notes</div>
+          ) : todos && todos.length > 0 ? (
             todos.map((todo) => {
               return (
                 <div

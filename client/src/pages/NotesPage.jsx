@@ -9,7 +9,7 @@ const NotesPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.payload);
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(null);
 
   const getNotes = async () => {
     try {
@@ -57,7 +57,9 @@ const NotesPage = () => {
         </div> */}
 
         <div className="notes p-4 flex flex-col space-y-3">
-          {notes.length > 0 ? (
+          {notes && notes.length <= 0 ? (
+            <div className="text-black">no notes</div>
+          ) : notes && notes.length > 0 ? (
             notes.map((note) => {
               return (
                 <Link
