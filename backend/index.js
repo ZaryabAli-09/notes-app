@@ -21,7 +21,9 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 // app.use(urlencoded({ extended: true }));
-
+app.get("/", (req, res) => {
+  res.send("Notes api is working");
+});
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/notes", notesRoutes);
