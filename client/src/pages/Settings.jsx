@@ -31,7 +31,7 @@ const Settings = () => {
   };
   const deleteAccount = async () => {
     const res = await fetch(
-      `https://notes-keep-app.onrender.com/api/users/delete/${user._id}`,
+      `https://keep-notes-321t.onrender.com/api/users/delete/${user._id}`,
       {
         method: "DELETE",
         credentials: "include",
