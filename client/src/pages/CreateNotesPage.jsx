@@ -21,13 +21,16 @@ const CreateNotesPage = () => {
         createdBy: user._id,
       };
       setLoading(true);
-      const res = await fetch("/api/notes/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(fromData),
-      });
+      const res = await fetch(
+        "https://keep-notes-321t.onrender.com/api/notes/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(fromData),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) {

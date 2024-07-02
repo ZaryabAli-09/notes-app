@@ -22,13 +22,16 @@ const SignIn = () => {
       };
 
       setLoading(true);
-      const res = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formdata),
-      });
+      const res = await fetch(
+        "https://keep-notes-321t.onrender.com/api/users/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formdata),
+        }
+      );
 
       const data = await res.json();
 

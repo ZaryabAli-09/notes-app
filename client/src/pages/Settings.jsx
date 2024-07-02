@@ -10,12 +10,15 @@ const Settings = () => {
 
   const logout = async () => {
     setLogoutLoading(true);
-    const res = await fetch("/api/users/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://keep-notes-321t.onrender.com/api/users/logout",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     if (!res.ok) {
       return alert(data.message);

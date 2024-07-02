@@ -24,10 +24,13 @@ const SignUp = () => {
       formData.append("password", password);
 
       setLoading(true);
-      const res = await fetch("/api/users/register", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://keep-notes-321t.onrender.com/api/users/register",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 
