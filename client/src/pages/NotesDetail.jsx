@@ -20,9 +20,10 @@ const AddNotePopUp = () => {
   const getNote = async () => {
     try {
       const res = await fetch(
-        `/api/notes/get-specific-note/${noteId.payload}`,
+        `https://notes-keep-app.onrender.com/api/notes/get-specific-note/${noteId.payload}`,
         {
           method: "GET",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -51,13 +52,17 @@ const AddNotePopUp = () => {
       };
 
       setLoading(true);
-      const res = await fetch(`/api/notes/edit-note/${noteId.payload}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `https://notes-keep-app.onrender.com/api/notes/edit-note/${noteId.payload}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         setLoading(false);
@@ -80,9 +85,13 @@ const AddNotePopUp = () => {
   const deleteNotes = async () => {
     try {
       setLoading2(true);
-      const res = await fetch(`/api/notes/delete-note/${noteId.payload}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://notes-keep-app.onrender.com/api/notes/delete-note/${noteId.payload}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         setErr(data.message);

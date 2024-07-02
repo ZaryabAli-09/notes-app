@@ -15,9 +15,13 @@ const TodoPage = () => {
 
   const getTodos = async () => {
     try {
-      const res = await fetch(`/api/todos/get/${user.payload._id}`, {
-        method: "GET",
-      });
+      const res = await fetch(
+        `https://notes-keep-app.onrender.com/api/todos/get/${user.payload._id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         return alert(data.message);
@@ -31,9 +35,13 @@ const TodoPage = () => {
   };
   const onDeleteTodo = async (todoId) => {
     try {
-      const res = await fetch(`/api/todos/delete/${todoId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://notes-keep-app.onrender.com/api/todos/delete/${todoId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         return alert(data.message);

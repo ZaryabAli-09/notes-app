@@ -14,6 +14,7 @@ const Settings = () => {
       "https://keep-notes-321t.onrender.com/api/users/logout",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -29,9 +30,13 @@ const Settings = () => {
     }
   };
   const deleteAccount = async () => {
-    const res = await fetch(`/api/users/delete/${user._id}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `https://notes-keep-app.onrender.com/api/users/delete/${user._id}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
     const data = await res.json();
     if (!res.ok) {
       return alert(data.message);

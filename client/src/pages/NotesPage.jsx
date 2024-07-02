@@ -13,12 +13,16 @@ const NotesPage = () => {
 
   const getNotes = async () => {
     try {
-      const res = await fetch(`/api/notes/get-notes/${user._id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `https://notes-keep-app.onrender.com/api/notes/get-notes/${user._id}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         setNotes(data.notesData);

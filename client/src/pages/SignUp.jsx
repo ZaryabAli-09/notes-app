@@ -28,6 +28,7 @@ const SignUp = () => {
         "https://keep-notes-321t.onrender.com/api/users/register",
         {
           method: "POST",
+          credentials: "include",
           body: formData,
         }
       );

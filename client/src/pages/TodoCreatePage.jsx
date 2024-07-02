@@ -23,6 +23,7 @@ const TodoCreatePage = () => {
         "https://keep-notes-321t.onrender.com/api/todos/create",
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

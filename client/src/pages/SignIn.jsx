@@ -26,6 +26,7 @@ const SignIn = () => {
         "https://keep-notes-321t.onrender.com/api/users/login",
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

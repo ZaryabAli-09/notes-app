@@ -25,6 +25,7 @@ const CreateNotesPage = () => {
         "https://keep-notes-321t.onrender.com/api/notes/create",
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
