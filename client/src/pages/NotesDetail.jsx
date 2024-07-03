@@ -25,7 +25,6 @@ const AddNotePopUp = () => {
         }`,
         {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -58,7 +57,6 @@ const AddNotePopUp = () => {
         `${import.meta.env.VITE_API_URL}/api/notes/edit-note/${noteId.payload}`,
         {
           method: "PUT",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -93,7 +91,6 @@ const AddNotePopUp = () => {
         }`,
         {
           method: "DELETE",
-          credentials: "include",
         }
       );
       const data = await res.json();

@@ -28,7 +28,6 @@ const SignUp = () => {
         `${import.meta.env.VITE_API_URL}/api/users/register`,
         {
           method: "POST",
-          credentials: "include",
           body: formData,
         }
       );

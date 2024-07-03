@@ -17,7 +17,6 @@ const NotesPage = () => {
         `${import.meta.env.VITE_API_URL}/api/notes/get-notes/${user._id}`,
         {
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

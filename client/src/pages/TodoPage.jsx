@@ -19,7 +19,6 @@ const TodoPage = () => {
         `${import.meta.env.VITE_API_URL}/api/todos/get/${user.payload._id}`,
         {
           method: "GET",
-          credentials: "include",
         }
       );
       const data = await res.json();
@@ -39,7 +38,6 @@ const TodoPage = () => {
         `${import.meta.env.VITE_API_URL}/api/todos/delete/${todoId}`,
         {
           method: "DELETE",
-          credentials: "include",
         }
       );
       const data = await res.json();

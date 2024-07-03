@@ -25,7 +25,6 @@ const CreateNotesPage = () => {
         `${import.meta.env.VITE_API_URL}/api/notes/create`,
         {
           method: "POST",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
