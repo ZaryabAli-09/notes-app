@@ -157,10 +157,16 @@ const loginUser = async (req, res) => {
           expiresIn: "10d",
         }
       );
-      return res.status(200).cookie("access_token", accessToken).json({
-        message: "User logged in successfully",
-        userData: isUserRegistered,
-      });
+      return res
+        .status(200)
+        .cookie("access_token", accessToken, {
+          httpOnly: true,
+          sameSite: "None",
+        })
+        .json({
+          message: "User logged in successfully",
+          userData: isUserRegistered,
+        });
     }
 
     // if user is not verified then
