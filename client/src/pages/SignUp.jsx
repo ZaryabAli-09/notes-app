@@ -31,7 +31,7 @@ const SignUp = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          body: formData,
+          body: JSON.stringify(formData),
         }
       );
 
