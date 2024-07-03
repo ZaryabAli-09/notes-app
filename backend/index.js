@@ -1,5 +1,4 @@
 import express from "express";
-// import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { dbConnection } from "./db/db.js";
 import cookieParser from "cookie-parser";
