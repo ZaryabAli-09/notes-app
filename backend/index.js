@@ -10,18 +10,10 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 
-// kyzy lkjx jjdm ttjb
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "khanzaryab249@gmail.com",
-//     pass: "kyzylkjxjjdmttjb",
-//   },
-// });
 // built in middlewares
 app.use(
   cors({
-    origin: ["https://notes-keep-app.onrender.com", "http://localhost:5173"],
+    origin: "https://notes-keep-app.onrender.com",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
