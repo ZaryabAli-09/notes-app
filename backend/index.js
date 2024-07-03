@@ -11,6 +11,7 @@ const app = express();
 
 // built in middlewares
 const allowedOrigins = [
+  "https://notes-keep00.netlify.app",
   "https://notes-keep-app.onrender.com",
   "http://localhost:5173",
 ];
