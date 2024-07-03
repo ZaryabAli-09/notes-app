@@ -11,7 +11,7 @@ const Settings = () => {
   const logout = async () => {
     setLogoutLoading(true);
     const res = await fetch(
-      "https://keep-notes-321t.onrender.com/api/users/logout",
+      `${import.meta.env.VITE_API_URL}/api/users/logout`,
       {
         method: "POST",
         credentials: "include",
@@ -31,7 +31,7 @@ const Settings = () => {
   };
   const deleteAccount = async () => {
     const res = await fetch(
-      `https://keep-notes-321t.onrender.com/api/users/delete/${user._id}`,
+      `${import.meta.env.VITE_API_URL}/api/users/delete/${user._id}`,
       {
         method: "DELETE",
         credentials: "include",

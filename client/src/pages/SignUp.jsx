@@ -25,7 +25,7 @@ const SignUp = () => {
 
       setLoading(true);
       const res = await fetch(
-        "https://keep-notes-321t.onrender.com/api/users/register",
+        `${import.meta.env.VITE_API_URL}/api/users/register`,
         {
           method: "POST",
           credentials: "include",

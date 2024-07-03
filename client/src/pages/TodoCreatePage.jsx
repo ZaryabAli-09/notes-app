@@ -20,7 +20,7 @@ const TodoCreatePage = () => {
       };
       setLoading(true);
       const res = await fetch(
-        "https://keep-notes-321t.onrender.com/api/todos/create",
+        `${import.meta.env.VITE_API_URL}/api/todos/create`,
         {
           method: "POST",
           credentials: "include",

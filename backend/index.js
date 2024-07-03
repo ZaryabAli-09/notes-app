@@ -21,7 +21,7 @@ const app = express();
 // built in middlewares
 app.use(
   cors({
-    origin: "https://notes-keep-app.onrender.com",
+    origin: ["https://notes-keep-app.onrender.com", "http://localhost:5173"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })

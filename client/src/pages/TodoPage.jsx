@@ -16,7 +16,7 @@ const TodoPage = () => {
   const getTodos = async () => {
     try {
       const res = await fetch(
-        `https://keep-notes-321t.onrender.com/api/todos/get/${user.payload._id}`,
+        `${import.meta.env.VITE_API_URL}/api/todos/get/${user.payload._id}`,
         {
           method: "GET",
           credentials: "include",
@@ -36,7 +36,7 @@ const TodoPage = () => {
   const onDeleteTodo = async (todoId) => {
     try {
       const res = await fetch(
-        `https://keep-notes-321t.onrender.com/api/todos/delete/${todoId}`,
+        `${import.meta.env.VITE_API_URL}/api/todos/delete/${todoId}`,
         {
           method: "DELETE",
           credentials: "include",

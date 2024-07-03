@@ -14,7 +14,7 @@ const NotesPage = () => {
   const getNotes = async () => {
     try {
       const res = await fetch(
-        `https://keep-notes-321t.onrender.com/api/notes/get-notes/${user._id}`,
+        `${import.meta.env.VITE_API_URL}/api/notes/get-notes/${user._id}`,
         {
           method: "GET",
           credentials: "include",

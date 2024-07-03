@@ -20,7 +20,9 @@ const AddNotePopUp = () => {
   const getNote = async () => {
     try {
       const res = await fetch(
-        `https://keep-notes-321t.onrender.com/api/notes/get-specific-note/${noteId.payload}`,
+        `${import.meta.env.VITE_API_URL}/api/notes/get-specific-note/${
+          noteId.payload
+        }`,
         {
           method: "GET",
           credentials: "include",
@@ -53,7 +55,7 @@ const AddNotePopUp = () => {
 
       setLoading(true);
       const res = await fetch(
-        `https://keep-notes-321t.onrender.com/api/notes/edit-note/${noteId.payload}`,
+        `${import.meta.env.VITE_API_URL}/api/notes/edit-note/${noteId.payload}`,
         {
           method: "PUT",
           credentials: "include",
@@ -86,7 +88,9 @@ const AddNotePopUp = () => {
     try {
       setLoading2(true);
       const res = await fetch(
-        `https://keep-notes-321t.onrender.com/api/notes/delete-note/${noteId.payload}`,
+        `${import.meta.env.VITE_API_URL}/api/notes/delete-note/${
+          noteId.payload
+        }`,
         {
           method: "DELETE",
           credentials: "include",
