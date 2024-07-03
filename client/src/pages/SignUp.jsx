@@ -28,6 +28,9 @@ const SignUp = () => {
         `${import.meta.env.VITE_API_URL}/api/users/register`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
           body: formData,
         }
       );
