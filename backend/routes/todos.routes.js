@@ -4,10 +4,11 @@ import {
   deleteTodo,
   getTodos,
 } from "../controllers/todos.controller.js";
+import { verifyUser } from "../middlewares/verify.middleware.js";
 const router = express.Router();
 
-router.get("/get/:createdBy", getTodos);
-router.post("/create", createTodo);
-router.delete("/delete/:todoId", deleteTodo);
+router.get("/get/:createdBy", verifyUser, getTodos);
+router.post("/create", verifyUser, createTodo);
+router.delete("/delete/:todoId", verifyUser, deleteTodo);
 
 export default router;

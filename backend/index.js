@@ -10,9 +10,13 @@ dotenv.config();
 const app = express();
 
 // built in middlewares
+const allowedOrigins = [
+  "https://notes-keep-app.onrender.com",
+  "http://localhost:5173",
+];
 app.use(
   cors({
-    origin: "https://notes-keep-app.onrender.com",
+    origin: allowedOrigins,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })

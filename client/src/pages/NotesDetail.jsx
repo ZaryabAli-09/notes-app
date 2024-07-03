@@ -28,6 +28,7 @@ const AddNotePopUp = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
         }
       );
       const data = await res.json();
@@ -60,6 +61,7 @@ const AddNotePopUp = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(formData),
         }
       );
@@ -91,6 +93,7 @@ const AddNotePopUp = () => {
         }`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       const data = await res.json();

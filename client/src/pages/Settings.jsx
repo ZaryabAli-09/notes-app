@@ -35,6 +35,7 @@ const Settings = () => {
       `${import.meta.env.VITE_API_URL}/api/users/delete/${user._id}`,
       {
         method: "DELETE",
+        credentials: "include",
       }
     );
     const data = await res.json();
