@@ -6,7 +6,8 @@ import userRoutes from "./routes/user.routes.js";
 import notesRoutes from "./routes/notes.routes.js";
 import todosRoutes from "./routes/todos.routes.js";
 import cors from "cors";
-
+import helmet from "helmet";
+import compression from "compression";
 dotenv.config();
 const app = express();
 
@@ -15,6 +16,8 @@ const allowedOrigins = [
   "https://keepnotesandtodos.netlify.app",
   "http://localhost:5173",
 ];
+app.use(compression()); // Gzip compression
+app.use(helmet()); // Secure HTTP headers
 app.use(
   cors({
     origin: allowedOrigins,

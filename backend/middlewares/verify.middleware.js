@@ -5,7 +5,7 @@ const verifyUser = async (req, res, next) => {
 
   if (!userBrowserAccessToken) {
     return res.status(401).json({
-      message: "Unauthorized user",
+      message: "Unauthorized userrr",
     });
   }
   const decodedAccessToken = jwt.verify(
@@ -15,14 +15,14 @@ const verifyUser = async (req, res, next) => {
 
   if (!decodedAccessToken) {
     return res.status(401).json({
-      message: "Unauthorized user",
+      message: "Unauthorized userrrr",
     });
   }
 
   const user = await User.findById(decodedAccessToken._id);
   if (!user) {
     return res.status(401).json({
-      message: "Invalid Token || Unauthorized",
+      message: "Invalid Tokenn || Unauthorized",
     });
   }
 
