@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post("/register", uploadFileUsingMulter.single("avatar"), registerUser);
 router.post("/login", loginUser);
+router.get("/verify-email/:token", verifyEmail);
 router.delete("/delete/:userId", verifyUser, deleteUser);
 router.post("/logout", verifyUser, logoutUser);
-router.get("/verify-email/:token", verifyUser, verifyEmail);
 
 export default router;
