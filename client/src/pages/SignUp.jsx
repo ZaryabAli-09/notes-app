@@ -14,6 +14,9 @@ const SignUp = () => {
 
   const submitHandler = async () => {
     try {
+      if (!file) {
+        return setErr("Avatar is required!");
+      }
       if (file && file["type"].split("/")[0] !== "image") {
         return setErr("Please upload an image!");
       }
