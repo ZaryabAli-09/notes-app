@@ -2,7 +2,7 @@
   "name": "Keep Notes",
   "short_name": "KEEP",
   "description": "Keep notes is a web application where you can save notes and todos",
-  "start_url": "/index.html",
+  "start_url": "https://keepnotesandtodos.netlify.app/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
