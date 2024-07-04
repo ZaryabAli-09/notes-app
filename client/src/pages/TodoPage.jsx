@@ -62,7 +62,7 @@ const TodoPage = () => {
       <div className="text-white">
         <div className="notes p-4 flex flex-col  space-y-3">
           {todos && todos.length <= 0 ? (
-            <div className="text-black">No notes</div>
+            <div className="text-black text-center font-bold">No todos</div>
           ) : todos && todos.length > 0 ? (
             todos.map((todo) => {
               return (

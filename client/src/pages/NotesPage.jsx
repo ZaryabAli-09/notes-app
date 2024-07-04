@@ -62,7 +62,7 @@ const NotesPage = () => {
 
         <div className="notes p-4 flex flex-col space-y-3">
           {notes && notes.length <= 0 ? (
-            <div className="text-black">no notes</div>
+            <div className="text-black text-center font-bold">No notes</div>
           ) : notes && notes.length > 0 ? (
             notes.map((note) => {
               return (
