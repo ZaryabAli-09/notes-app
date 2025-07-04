@@ -88,7 +88,7 @@ const registerUser = async (req, res) => {
     await savedUser.save();
 
     // send verification email
-    const verificationLink = `https://keep-notes-321t.onrender.com/api/users/verify-email/${verificationToken}`;
+    const verificationLink = `${process.env.BACKEND_URL}/api/users/verify-email/${verificationToken}`;
     const mailOptions = {
       from: "khanzaryab249@gmail.com",
       to: email,
@@ -191,7 +191,7 @@ const loginUser = async (req, res) => {
       );
 
       // send verification link
-      const verificationLink = `https://keep-notes-321t.onrender.com/api/users/verify-email/${user.verificationToken}`;
+      const verificationLink = `${process.env.BACKEND_URL}/api/users/verify-email/${user.verificationToken}`;
       const mailOptions = {
         from: "khanzaryab249@gmail.com",
         to: email,
