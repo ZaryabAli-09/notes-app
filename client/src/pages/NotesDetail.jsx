@@ -14,7 +14,7 @@ const AddNotePopUp = () => {
   const [notesDescription, setNotesDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  const [err, setErr] = useState();
+  const [err, setErr] = useState(null);
   const [deletePopUp, setDeletePopUp] = useState(false);
 
   const getNote = async () => {
@@ -36,18 +36,21 @@ const AddNotePopUp = () => {
       if (res.ok) {
         setNotesDescription(data.notesData.notesDescription);
         setTitle(data.notesData.title);
-      }
-      if (!res.ok) {
-        setLoading(false);
+      } else {
         setErr(data.message);
-        return;
       }
     } catch (error) {
-      setErr(data.message);
+      setErr(error.message);
     }
   };
+
   const updateNotes = async () => {
     try {
+      if (!title.trim()) {
+        setErr("Title is required");
+        return;
+      }
+
       const formData = {
         title,
         notesDescription,
@@ -67,20 +70,15 @@ const AddNotePopUp = () => {
       );
       const data = await res.json();
       if (res.ok) {
-        setLoading(false);
-        setErr(data.message);
         setTimeout(() => {
           navigate("/notes-page");
         }, 1000);
       }
-      if (!res.ok) {
-        setLoading(false);
-        setErr(data.message);
-        return;
-      }
-    } catch (error) {
-      setLoading(false);
       setErr(data.message);
+    } catch (error) {
+      setErr(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,93 +95,115 @@ const AddNotePopUp = () => {
         }
       );
       const data = await res.json();
-      if (!res.ok) {
-        setErr(data.message);
-        setLoading2(false);
-        return;
-      }
       if (res.ok) {
-        setErr(data.message);
-        setLoading2(false);
-        setDeletePopUp(false);
         setTimeout(() => {
           navigate("/notes-page");
         }, 1000);
-        return;
       }
+      setErr(data.message);
     } catch (error) {
       setErr(error.message);
+    } finally {
       setLoading2(false);
+      setDeletePopUp(false);
     }
   };
+
   useEffect(() => {
     getNote();
   }, []);
 
   return (
-    <div className="backdrop-brightness-20  p-2 m-2 h-72  rounded ">
-      <button className="mb-5">
-        <FaArrowAltCircleLeft
-          className="text-2xl text-yellow-500 "
-          onClick={() => navigate("/notes-page")}
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate("/notes-page")}
+            className="flex items-center text-yellow-600 hover:text-yellow-700"
+          >
+            <FaArrowAltCircleLeft className="text-2xl mr-2" />
+            <span className="font-medium">Back to Notes</span>
+          </button>
+        </div>
+
+        {/* Title Input */}
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          type="text"
+          placeholder="Note Title"
+          className="w-full border-b-2 border-gray-300 outline-none py-3 px-2 placeholder-gray-400 font-semibold focus:border-yellow-500 mb-6 text-lg"
         />
-      </button>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        type="text"
-        placeholder="Title"
-        className="w-full text-black border-gray-400 border-b outline-none py-3 px-1  placeholder:text-gray-500 font-semibold text-sm focus:border-yellow-400 mb-2"
-      />
-      <ReactQuill
-        value={notesDescription}
-        onChange={(value) => setNotesDescription(value)}
-        className=" text-black bg-white mb-12 h-32"
-        theme="snow"
-        placeholder="write something here"
-      />
-      <button
-        onClick={updateNotes}
-        className="relative px-6 py-3 w-full font-bold mb-2 mt-1 text-black rounded-lg group"
-      >
-        <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-        <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
-        <span className="relative"> {loading ? "Loading..." : "Update"}</span>
-      </button>{" "}
-      <button
-        onClick={() => setDeletePopUp(true)}
-        className="relative px-6 py-3 w-full font-bold mt-1 text-black rounded-lg group"
-      >
-        <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-red-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-        <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-red-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
-        <span className="relative"> {loading2 ? "Loading..." : "Delete"}</span>
-      </button>
-      {deletePopUp && (
-        <div className="mx-auto relative w-[80%] text-sm -mt-40 h-40 bg-red-600 bg-opacity-80 rounded-lg p-6">
-          <p className="text-white">
-            Are you sure you want to delete this notes?
-          </p>
-          <div className="mt-7   flex items-center justify-center">
-            <button
-              className="bg-white p-2 w-16 rounded-lg font-semibold hover:bg-green-700 mx-2"
-              onClick={deleteNotes}
-            >
-              Yes
-            </button>
-            <button
-              className="bg-white p-2 w-16 rounded-lg font-semibold hover:bg-red-700 mx-2"
-              onClick={() => setDeletePopUp(false)}
-            >
-              No
-            </button>
+
+        {/* Editor */}
+        <div className="mb-8">
+          <ReactQuill
+            value={notesDescription}
+            onChange={setNotesDescription}
+            className="h-64 mb-16"
+            theme="snow"
+            placeholder="Write your note here..."
+          />
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <button
+            onClick={updateNotes}
+            disabled={loading}
+            className={`flex-1 py-3 px-6 rounded-lg font-bold text-white bg-yellow-500 hover:bg-yellow-600 transition-colors ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading ? "Updating..." : "Update Note"}
+          </button>
+
+          <button
+            onClick={() => setDeletePopUp(true)}
+            disabled={loading2}
+            className={`flex-1 py-3 px-6 rounded-lg font-bold text-white bg-red-500 hover:bg-red-600 transition-colors ${
+              loading2 ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading2 ? "Deleting..." : "Delete Note"}
+          </button>
+        </div>
+
+        {/* Error Message */}
+        {err && (
+          <div className="mt-4 p-3 bg-yellow-100 text-yellow-800 rounded-lg text-center">
+            {err}
           </div>
-        </div>
-      )}
-      {err && (
-        <div className="w-full bg-yellow-300 p-2 rounded mt-2  font-extrabold  font-mono text-black text-center">
-          {err}
-        </div>
-      )}
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {deletePopUp && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full">
+              <h3 className="text-xl font-bold mb-4">Confirm Deletion</h3>
+              <p className="mb-6">
+                Are you sure you want to delete this note? This action cannot be
+                undone.
+              </p>
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={() => setDeletePopUp(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={deleteNotes}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

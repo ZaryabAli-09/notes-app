@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
 const Settings = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.payload);
@@ -14,7 +15,6 @@ const Settings = () => {
       `${import.meta.env.VITE_API_URL}/api/users/logout`,
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
@@ -30,6 +30,7 @@ const Settings = () => {
       navigate("/");
     }
   };
+
   const deleteAccount = async () => {
     const res = await fetch(
       `${import.meta.env.VITE_API_URL}/api/users/delete/${user._id}`,
@@ -46,82 +47,125 @@ const Settings = () => {
       navigate("/");
     }
   };
-  return (
-    <div className="text-white p-5">
-      <button className="mb-5">
-        <FaArrowAltCircleLeft
-          className="text-2xl text-yellow-500 "
-          onClick={() => navigate("/notes-page")}
-        />
-      </button>
-      <h1 className="text-2xl text-yellow-700 font-extrabold italic ">KEEP</h1>
-      <p className="text-md text-yellow-700 font-semibold">
-        Make your notes and set todo's easily with KEEP
-      </p>
-      <br />
-      <hr />
-      <div className="info mt-5">
-        <h3 className="text-md text-yellow-700 font-semibold">
-          {user.username.toUpperCase()}
-        </h3>
-        <h3 className="text-sm text-yellow-700 font-semibold">
-          {user.email.toUpperCase()}
-        </h3>
-      </div>
-      <br />
-      <hr />
 
-      <div className="mt-10">
-        <h3 className="text-xl text-yellow-700 font-bold">Privacy Policy</h3>
-        <p className="text-sm text-yellow-700 font-semibold">
-          At KEEP, we value your privacy and are committed to protecting your
-          personal information. We collect personal data (like name, email) and
-          usage data to provide and improve our services. Your information is
-          secured with us and shared only when necessary, such as for legal
-          reasons or business transactions. You have rights over your data,
-          including access, correction, and deletion. We may update this policy,
-          so please review it periodically. For any questions, contact us at
-          khanzaryab249@gmail.com.
-        </p>
-      </div>
-      <br />
-      <hr />
-      {deletePopUp && (
-        <div className="mx-auto relative bg-opacity-70 top-16   w-[80%] text-sm -mt-40 h-40 bg-red-600  rounded-lg p-6">
-          <p className="text-white text-center">
-            Are you sure you want to delete this account?
+  return (
+    <div className="min-h-screen bg-gray-900 p-6 sm:p-8 md:p-10">
+      {/* Header Section */}
+      <div className="flex items-start justify-between mb-8">
+        <button
+          onClick={() => navigate("/notes-page")}
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          aria-label="Go back"
+        >
+          <FaArrowAltCircleLeft className="text-2xl text-yellow-500" />
+          <span className="text-yellow-500 text-sm font-medium hidden sm:block">
+            Back
+          </span>
+        </button>
+        <div className="text-center">
+          <h1 className="text-2xl sm:text-3xl text-yellow-600 font-bold">
+            KEEP
+          </h1>
+          <p className="text-sm sm:text-base text-yellow-600 font-medium">
+            Organize notes and tasks with ease
           </p>
-          <div className="mt-7   flex items-center justify-center">
-            <button
-              className="bg-white p-2 text-black w-16 rounded-lg font-semibold hover:bg-green-700 mx-2"
-              onClick={deleteAccount}
-            >
-              Yes
-            </button>
-            <button
-              className="bg-white text-black p-2 w-16 rounded-lg font-semibold hover:bg-red-700 mx-2"
-              onClick={() => setDeletePopUp(false)}
-            >
-              No
-            </button>
+        </div>
+        <div className="w-8"></div> {/* Spacer for alignment */}
+      </div>
+
+      {/* User Info Section */}
+      <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+        <div className="flex items-center gap-4 mb-4">
+          {user.avatar && (
+            <img
+              src={user.avatar}
+              alt="User avatar"
+              className="w-12 h-12 rounded-full border-2 border-yellow-500 object-cover"
+            />
+          )}
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-yellow-600">
+              {user.username.toUpperCase()}
+            </h3>
+            <p className="text-sm sm:text-base text-yellow-600">
+              {user.email.toLowerCase()}
+            </p>
           </div>
         </div>
-      )}
-      <div className="mt-10 flex flex-col space-y-1 ">
+        <hr className="border-gray-700 my-4" />
+      </div>
+
+      {/* Privacy Policy Section */}
+      <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+        <h3 className="text-xl font-bold text-yellow-600 mb-4">
+          Privacy Policy
+        </h3>
+        <div className="prose prose-sm text-yellow-600">
+          <p className="mb-4">
+            At KEEP, we value your privacy and are committed to protecting your
+            personal information. We collect personal data (like name, email)
+            and usage data to provide and improve our services.
+          </p>
+          <p className="mb-4">
+            Your information is secured with us and shared only when necessary,
+            such as for legal reasons or business transactions.
+          </p>
+          <p>
+            You have rights over your data, including access, correction, and
+            deletion. We may update this policy, so please review it
+            periodically. For any questions, contact us at
+            khanzaryab249@gmail.com.
+          </p>
+        </div>
+        <hr className="border-gray-700 my-4" />
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onClick={logout}
-          className="bg-yellow-500 p-2 w-32 rounded-md hover:bg-yellow-400 font-bold text-black uppercase text-xs"
+          disabled={logoutLoading}
+          className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-bold rounded-lg transition-colors duration-200 flex-1 max-w-xs mx-auto"
         >
-          {logoutLoading ? "Loading..." : "Logout"}
+          {logoutLoading ? "Signing Out..." : "Sign Out"}
         </button>
 
         <button
           onClick={() => setDeletePopUp(true)}
-          className="bg-yellow-500 p-2 w-32 rounded-md hover:bg-yellow-400 font-bold text-black uppercase text-xs"
+          className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg transition-colors duration-200 flex-1 max-w-xs mx-auto"
         >
           Delete Account
         </button>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deletePopUp && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full shadow-xl">
+            <h3 className="text-xl font-bold text-white mb-4">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Are you sure you want to permanently delete your account? This
+              action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setDeletePopUp(false)}
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteAccount}
+                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded transition-colors"
+              >
+                Delete Account
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "react-quill/dist/quill.snow.css";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,17 +6,17 @@ import { useNavigate } from "react-router-dom";
 const TodoCreatePage = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.payload);
-
   const [todo, setTodo] = useState("");
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState();
+  const [err, setErr] = useState(null);
 
   const onAddTodo = async () => {
+    if (!todo.trim()) {
+      setErr("Todo cannot be empty");
+      return;
+    }
+
     try {
-      const formData = {
-        todo,
-        createdBy: user._id,
-      };
       setLoading(true);
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/api/todos/create`,
@@ -27,64 +26,68 @@ const TodoCreatePage = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            todo,
+            createdBy: user._id,
+          }),
         }
       );
 
       const data = await res.json();
       if (!res.ok) {
-        setLoading(false);
-        setErr(data.message);
-        return;
+        throw new Error(data.message);
       }
-      if (res.ok) {
-        setLoading(false);
-        setErr(data.message);
-        setTimeout(() => {
-          navigate("/todo");
-        }, 1000);
-      }
+      setTimeout(() => navigate("/todo"), 1000);
     } catch (error) {
-      setLoading(false);
       setErr(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
-    <>
-      <div className="backdrop-brightness-20  p-2 m-2 h-72  rounded ">
-        <button className="mb-5">
-          <FaArrowAltCircleLeft
-            className="text-2xl text-yellow-500 "
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-6">
+        <div className="flex items-center mb-6">
+          <button
             onClick={() => navigate("/todo")}
+            className="flex items-center text-yellow-600 hover:text-yellow-700 mr-4"
+          >
+            <FaArrowAltCircleLeft className="text-2xl" />
+          </button>
+          <h2 className="text-xl font-bold text-gray-800">Create New Todo</h2>
+        </div>
+
+        <div className="space-y-4">
+          <input
+            value={todo}
+            onChange={(e) => {
+              setTodo(e.target.value);
+              setErr(null);
+            }}
+            type="text"
+            placeholder="What needs to be done?"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
           />
-        </button>
-        <input
-          value={todo}
-          onChange={(e) => setTodo(e.target.value)}
-          type="text"
-          placeholder="Enter your todo"
-          className="w-full mt-24 bg-neutral-200 text-black p-8 rounded mb-2 outline-yellow-500 placeholder:text-gray-500 font-semibold text-sm "
-        />
 
-        <button
-          onClick={onAddTodo}
-          className="relative px-6 py-3 w-full font-bold mt-1 text-black rounded-lg group"
-        >
-          <span className="absolute inset-0 w-full h-full transition duration-300 transform -translate-x-1 -translate-y-1 bg-yellow-500 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-          <span className="absolute inset-0 w-full h-full transition duration-300 transform translate-x-1 translate-y-1 bg-yellow-800 ease opacity-80 group-hover:translate-x-0 group-hover:translate-y-0 mix-blend-screen"></span>
-          <span className="relative">
-            {" "}
-            {loading ? "Loading..." : "Add Todo"}
-          </span>
-        </button>
+          <button
+            onClick={onAddTodo}
+            disabled={loading}
+            className={`w-full py-3 px-4 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg transition-colors ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {loading ? "Adding..." : "Add Todo"}
+          </button>
 
-        {err && (
-          <div className="w-full bg-yellow-300 p-2 rounded mt-2  font-extrabold  font-mono text-black text-center">
-            {err}
-          </div>
-        )}
+          {err && (
+            <div className="p-3 bg-yellow-100 text-yellow-800 rounded-lg text-center">
+              {err}
+            </div>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
